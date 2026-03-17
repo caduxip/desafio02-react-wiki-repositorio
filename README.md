@@ -233,6 +233,40 @@ npm run build
 npm test
 ```
 
+## Testes
+
+O projeto possui testes automatizados com foco no fluxo principal de busca e nas partes mais críticas da aplicação.
+
+### Cobertura atual
+
+- fluxo de busca de repositórios
+- validação de formulário
+- prevenção de duplicidade
+- remoção de itens da lista
+- integração da camada de serviço com a API do GitHub
+- renderização do componente de repositório
+
+### Executar testes em modo interativo
+
+```bash
+npm test
+```
+
+### Executar testes uma vez, em modo CI
+
+```bash
+CI=true npm test -- --watch=false
+```
+
+### Localização dos testes
+
+```text
+src/pages/App.test.js
+src/services/api.test.js
+src/components/ItemRepo/index.test.js
+src/setupTests.js
+```
+
 ## Status
 
 Projeto funcional e pronto para evolução incremental.
