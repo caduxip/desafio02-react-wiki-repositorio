@@ -1,70 +1,176 @@
-# Getting Started with Create React App
+# GitHub Repository Explorer
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aplicação React para buscar repositórios públicos no GitHub, salvar resultados localmente e visualizar informações principais de cada projeto em uma interface simples, responsiva e focada em boa experiência de uso.
 
-## Available Scripts
+## Visão Geral
 
-In the project directory, you can run:
+O projeto consome a API pública do GitHub para localizar repositórios no formato `owner/repository`, exibe os resultados em cards e mantém a lista salva no navegador com `localStorage`.
 
-### `npm start`
+Além da busca funcional, a interface foi refinada com foco em:
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- clareza visual
+- feedback de estado
+- acessibilidade básica
+- organização de componentes
+- separação entre UI e consumo de API
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Funcionalidades
 
-### `npm test`
+- Busca de repositórios públicos pelo formato `owner/repository`
+- Validação de campo antes do envio
+- Tratamento de erro para repositórios inexistentes
+- Prevenção de itens duplicados
+- Persistência local da lista de repositórios
+- Exibição de nome, descrição, linguagem, estrelas e forks
+- Ação para abrir o repositório no GitHub
+- Ação para remover repositórios da lista
+- Interface responsiva com feedback visual de carregamento e mensagens de status
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Stack
 
-### `npm run build`
+- React 19
+- Styled Components
+- Axios
+- Create React App
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Estrutura do Projeto
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```text
+src/
+  assets/
+    github-invertocat-white.svg
+  components/
+    Button/
+    ItemRepo/
+    input/
+  pages/
+    App.js
+    styles.js
+  services/
+    api.js
+  index.js
+  styles.js
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Arquitetura
 
-### `npm run eject`
+### `src/pages/App.js`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+Componente principal da aplicação. Centraliza:
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- estado da busca
+- lista de repositórios
+- mensagens de feedback
+- persistência em `localStorage`
+- integração com a camada de serviço
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### `src/services/api.js`
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+Responsável por encapsular o acesso à API do GitHub. Isso reduz acoplamento entre a interface e a lógica de requisição.
 
-## Learn More
+### `src/components`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+Contém componentes visuais reutilizáveis:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- `input`: campo de busca
+- `Button`: botão principal da ação
+- `ItemRepo`: card de exibição do repositório
 
-### Code Splitting
+## Como Executar
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### Pré-requisitos
 
-### Analyzing the Bundle Size
+- Node.js 18+ recomendado
+- npm ou yarn
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### Instalação
 
-### Making a Progressive Web App
+```bash
+npm install
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+ou
 
-### Advanced Configuration
+```bash
+yarn
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+### Ambiente de desenvolvimento
 
-### Deployment
+```bash
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+Aplicação disponível em:
 
-### `npm run build` fails to minify
+```text
+http://localhost:3000
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### Build de produção
+
+```bash
+npm run build
+```
+
+## Como Usar
+
+Digite no campo de busca um repositório no formato:
+
+```text
+facebook/react
+```
+
+ou
+
+```text
+vercel/next.js
+```
+
+Depois clique em `Buscar`.
+
+## API Utilizada
+
+O projeto utiliza a API pública do GitHub:
+
+```text
+GET https://api.github.com/repos/:owner/:repository
+```
+
+Exemplo:
+
+```text
+GET https://api.github.com/repos/facebook/react
+```
+
+## Boas Práticas Aplicadas
+
+- Componentização por responsabilidade
+- Reutilização de estilos com `styled-components`
+- Separação de camada de serviço
+- Tratamento explícito de loading, sucesso e erro
+- Persistência local desacoplada da interface
+- Botões e inputs com estados de foco, hover e disabled
+- Mensagens de status com `aria-live`
+- Links externos com `rel="noreferrer"`
+
+## Melhorias Futuras
+
+- adicionar testes unitários e de integração
+- criar componentes de domínio para `SearchForm`, `RepositoryList` e `EmptyState`
+- suportar busca por usuário e listagem completa de repositórios
+- paginação e ordenação de resultados
+- internacionalização
+- tema claro/escuro configurável
+
+## Scripts Disponíveis
+
+```bash
+npm start
+npm run build
+npm test
+```
+
+## Status
+
+Projeto funcional e pronto para evolução incremental.
