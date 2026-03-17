@@ -82,6 +82,7 @@ Contém componentes visuais reutilizáveis:
 
 - Node.js 18+ recomendado
 - npm ou yarn
+- Docker e Docker Compose opcionais para ambiente isolado
 
 ### Instalação
 
@@ -112,6 +113,66 @@ http://localhost:3000
 ```bash
 npm run build
 ```
+
+## Ambiente com Docker
+
+O projeto inclui uma configuração de desenvolvimento com Docker pensada para uso local por outros desenvolvedores, com:
+
+- ambiente padronizado com Node.js
+- hot reload
+- dependências isoladas no container
+- bind mount do código-fonte para edição local
+
+### Subir o ambiente
+
+```bash
+docker compose up --build
+```
+
+Aplicação disponível em:
+
+```text
+http://localhost:3000
+```
+
+### Executar em segundo plano
+
+```bash
+docker compose up --build -d
+```
+
+### Parar o ambiente
+
+```bash
+docker compose down
+```
+
+### Reinstalar dependências do container
+
+Útil quando houver alteração em `package.json` ou `package-lock.json`.
+
+```bash
+docker compose down -v
+docker compose up --build
+```
+
+### Executar comandos no container
+
+```bash
+docker compose exec app sh
+```
+
+Exemplo para rodar build:
+
+```bash
+docker compose exec app npm run build
+```
+
+## Arquivos Docker
+
+- `Dockerfile`: imagem base de desenvolvimento com Node.js 20 Alpine
+- `docker-compose.yml`: orquestra o serviço local, expõe a porta `3000` e mantém `node_modules` em volume dedicado
+- `.dockerignore`: reduz o contexto de build e evita copiar artefatos desnecessários
 
 ## Como Usar
 
@@ -153,6 +214,7 @@ GET https://api.github.com/repos/facebook/react
 - Botões e inputs com estados de foco, hover e disabled
 - Mensagens de status com `aria-live`
 - Links externos com `rel="noreferrer"`
+- Ambiente de desenvolvimento containerizado para onboarding consistente
 
 ## Melhorias Futuras
 
